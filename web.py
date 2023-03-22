@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 messages = []
 counter = 1
-img_folder = 'E:\\桌面\\图片'
+img_folder = '图片'
 
 @app.route('/')
 def index():

@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <title>奇怪的留言板</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        font-size: 1。5em;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .container {
+        text-align: center;
+      }
+      textarea {
+        width: 100%;
+        font-size: 1.25em;
+      }
+      button {
+        font-size: 1.25em;
+      }
+      h1 {
+        font-size: 2em;
+      }
+      h2 {
+        font-size: 1.75em;
+      }
+      li {
+        font-size: 1.75em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>奇怪的留言板</h1>
+      <form action="/submit" method="post">
+        <div class="form-group">
+          <label for="message">蛤:</label>
+          <textarea class="form-control" id="message" name="message" cols="36" rows="3"></textarea>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary" name="submit_btn">这是什么？点一下</button>
+      </form>
+      {% if messages %}
+      <h2>下面是:</h2>
+      <ul>
+      <br> 
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      <div>
+        <img src="{{ url_for('static', filename='~/Desktop/图片/1.jpg') }}" alt="random image">
+      </div>
+    </div>
+  </body>
+</html>

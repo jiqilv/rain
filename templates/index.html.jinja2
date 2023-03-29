@@ -1,60 +1,124 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <title>奇怪的留言板</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>聊点什么</title>
     <style>
       body {
-        font-size: 1。5em;
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
+        font-size: 24px;
       }
+
       .container {
-        text-align: center;
+        display: flex;
+        flex-direction: row;
+        width: 1600px;
+        height: 600px;
+        background-color: #F7F7F7;
+        border-radius: 5px;
+        box-shadow: 0 2px 6px rgba(0,0,0,.1);
       }
-      textarea {
-        width: 100%;
-        font-size: 1.25em;
+
+      .left-panel {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        height: 100%;
+        padding: 20px;
+        overflow-y: scroll;
       }
-      button {
-        font-size: 1.25em;
+
+      .right-panel {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        height: 100%;
+        padding: 20px;
+        overflow-y: scroll;
       }
-      h1 {
-        font-size: 2em;
+
+      .message-box {
+        margin-bottom: 20px;
       }
-      h2 {
-        font-size: 1.75em;
+
+      .message-box .title {
+        font-weight: bold;
+        margin-bottom: 5px;
       }
-      li {
-        font-size: 1.75em;
+
+      .message-box .content {
+        margin-left: 10px;
+      }
+
+      .history-box {
+        margin-bottom: 20px;
+      }
+
+      .history-box .title {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .history-box .content {
+        margin-left: 10px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: row;
+        margin-top: auto;
+        margin-bottom: 20px;
+      }
+
+      input[type="text"] {
+        flex-grow: 1;
+        padding: 10px;
+        font-size: 24px;
+        border-radius: 5px;
+        border: none;
+        margin-right: 10px;
+      }
+
+      input[type="submit"] {
+        padding: 10px;
+        font-size: 24px;
+        border-radius: 5px;
+        border: none;
+        background-color: #007AFF;
+        color: #FFFFFF;
+        cursor: pointer;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>奇怪的留言板</h1>
-      <form action="/submit" method="post">
-        <div class="form-group">
-          <label for="message">蛤:</label>
-          <textarea class="form-control" id="message" name="message" cols="36" rows="3"></textarea>
+      <div class="left-panel">
+        <div class="message-box" id="message-box">
+          <div class="title">在这里</div>
+          {% for message in messages %}
+            <div class="content">{{ message['发送了'] }}</div>
+          {% endfor %}
         </div>
-        <br>
-        <button type="submit" class="btn btn-primary" name="submit_btn">这是什么？点一下</button>
-      </form>
-      {% if messages %}
-      <h2>下面是:</h2>
-      <ul>
-      <br> 
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-      <div>
-        <img src="{{ url_for('static', filename='~/图片/1.jpg') }}" alt="random image">
+        <form method="post" action="{{ url_for('submit_message') }}">
+          <input type="text" name="username" placeholder="请输入您的用户名...">
+          <input type="text" name="message" placeholder="请输入留言...">
+          <input type="submit" value="点这里">
+        </form>
+      </div>
+      <div class="right-panel">
+        <div class="history-box">
+          <div class="title">往事不堪回首</div>
+          {% for message in messages %}
+            {% if loop.index > 8 %}
+              <div class="content" style="display: none;">{{ message['发送了'] }}（这个人什么都没说）</div>
+            {% else %}
+              <div class="content">{{ message['发送了'] }}（刚刚是{{ message['用户名'] }}）</div>
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
     </div>
   </body>
-</html>
+</
